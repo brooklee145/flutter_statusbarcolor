@@ -35,7 +35,7 @@ class FlutterStatusbarcolorPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
 
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        if (activity == null) return result.success(null)
+        val activity = activity ?: return result.success(null)
 
         when (call.method) {
             "getstatusbarcolor" -> {
@@ -51,7 +51,12 @@ class FlutterStatusbarcolorPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (animate) {
                         val colorAnim = ValueAnimator.ofArgb(activity!!.window.statusBarColor, statusBarColor)
-                        colorAnim.addUpdateListener { anim -> activity!!.window.statusBarColor = anim.animatedValue as Int }
+                        colorAnim.addUpdateListener { anim ->
+                            val animatedValue = anim.animatedValue as? Int
+                            if (animatedValue != null) {
+                                activity.window.statusBarColor = animatedValue
+                            }
+                        }
                         colorAnim.duration = 300
                         colorAnim.start()
                     } else {
