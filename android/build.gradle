@@ -27,6 +27,8 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 31
 
+    namespace "com.sameer.flutterstatusbarcolor.flutterstatusbarcolor"
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -36,6 +38,15 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
